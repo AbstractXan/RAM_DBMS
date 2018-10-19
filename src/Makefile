@@ -8,8 +8,8 @@ TARGET = test
 all: $(OBJS)
 	$(GCC) $(OBJS) $(LFLAGS) -o $(TARGET)
 
-cs16b030_dbms.o : cs16b030_dbms.h
-sample.o : cs16b030_dbms.h
+dbms.o : handle.h
+main.o : handle.h
 
 .cpp.o:
 	$(GCC) $(CFLAGS) -c $<
