@@ -49,6 +49,17 @@ struct attr_t {
 	ondelete_t onDelete;
 };
 
+struct col_t {
+	string name;
+	attrtype_t type;
+	bool isPK;
+	bool isFK;
+	bool isNotNull;
+	bool hasDefault;
+	attrval_t defaultVal;
+	ondelete_t onDelete;
+};
+
 /* Stores the table */
 struct table_t{
 	int rows;
