@@ -66,6 +66,7 @@ typedef struct {
 /* Database handle */
 typedef struct {
 	result_t*  (*exec)(char *query);
+	database_t *currentDB;
 }handle_t;
 
 extern handle_t* get_handle();

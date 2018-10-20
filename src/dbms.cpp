@@ -15,6 +15,8 @@ result_t* myexec(char *query) {
 handle_t* get_handle() {
 	handle_t* const myhandle = (handle_t*)malloc(sizeof(handle_t));
 	myhandle->exec = myexec;
+	myhandle->currentDB = new database_t;
+	myhandle->currentDB->firstTable = NULL;
 	printf("inside get_handle\n");
 	return myhandle;
 }
