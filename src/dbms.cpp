@@ -67,7 +67,7 @@ result_t* handle_t::exec(string query) {
 
 	attrs[2].name = "Ssdry";
 	attrs[2].type = VAL;
-	attrs[2].isPK = false;
+	attrs[2].isPK = true;
 	attrs[2].isFK = false;
 	attrs[2].isNotNull = false;
 	attrs[2].hasDefault = false;
@@ -78,12 +78,55 @@ result_t* handle_t::exec(string query) {
 
 
 	//Filling test data
-	cell_t *insertCells = new cell_t[3];
-	strcpy( insertCells[0].value.str, "Roh.it");
-	insertCells[1].value.value = 1998;
-	insertCells[1].value.value = 5000;
-	
+	cell_t **insertCells = new cell_t*[3];
+	for(int i = 0; i < 3 ; i++){
+		insertCells[i] = new cell_t;
+	}
+	strcpy( insertCells[0]->value.str, "Roh.it");
+	insertCells[1]->value.value = 1998;
+	insertCells[2]->value.value = 5000;
 	this->currentDB->findTable("SampleTable")->insertValue(insertCells);
+
+	for(int i = 0 ; i < 3 ; i++){
+		insertCells[i] = new cell_t;
+	}
+	strcpy( insertCells[0]->value.str, "Priyanshu");
+	insertCells[1]->value.value = 1997;
+	insertCells[2]->value.value = 5053;
+	this->currentDB->findTable("SampleTable")->insertValue(insertCells);
+
+	for(int i = 0 ; i < 3 ; i++){
+		insertCells[i] = new cell_t;
+	}
+	strcpy( insertCells[0]->value.str, "Roh.it");
+	insertCells[1]->value.value = 1998;
+	insertCells[2]->value.value = 6000;
+	this->currentDB->findTable("SampleTable")->insertValue(insertCells);
+
+	for(int i = 0 ; i < 3 ; i++){
+		insertCells[i] = new cell_t;
+	}
+	strcpy( insertCells[0]->value.str, "Rohith");
+	insertCells[1]->value.value = 1998;
+	insertCells[2]->value.value = 6000;
+	this->currentDB->findTable("ExtraTable")->insertValue(insertCells);
+
+	for(int i = 0 ; i < 3 ; i++){
+		insertCells[i] = new cell_t;
+	}
+	strcpy( insertCells[0]->value.str, "Rohith");
+	insertCells[1]->value.value = 1998;
+	insertCells[2]->value.value = 5000;
+	this->currentDB->findTable("ExtraTable")->insertValue(insertCells);
+
+	for(int i = 0 ; i < 3 ; i++){
+		insertCells[i] = new cell_t;
+	}
+	strcpy( insertCells[0]->value.str, "Rohith");
+	insertCells[1]->value.value = 1998;
+	insertCells[2]->value.value = 6000;
+	this->currentDB->findTable("ExtraTable")->insertValue(insertCells);
+
 	this->currentDB->displayData();
 	return res;
 }
