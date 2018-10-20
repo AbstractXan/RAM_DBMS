@@ -68,7 +68,7 @@ struct table_t{
 	attr_t *attributeList;
 	table_t *nextTable;
 	void printTable();
-	void insertValue(cell_t *row);
+	bool insertValue(cell_t *row);
 	void insertValues();
 };
 

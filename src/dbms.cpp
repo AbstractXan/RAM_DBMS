@@ -75,6 +75,15 @@ result_t* handle_t::exec(string query) {
 	attrs[2].onDelete = SETNULL;
 
 	this->currentDB->createTable("ExtraTable", 3, attrs);
+
+
+	//Filling test data
+	cell_t *insertCells = new cell_t[3];
+	strcpy( insertCells[0].value.str, "Roh.it");
+	insertCells[1].value.value = 1998;
+	insertCells[1].value.value = 5000;
+	
+	this->currentDB->findTable("SampleTable")->insertValue(insertCells);
 	this->currentDB->displayData();
 	return res;
 }
