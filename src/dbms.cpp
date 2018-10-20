@@ -74,39 +74,44 @@ void Error(string str){
 // DEBUGGING FUNCTIONS //
 /* DISPLAY TABLE FOR DEBUGGING */
 void printTable(table_t *table){
-	
-	attr_t attr = table->attributeList;
+
+	attr_t *attr = table->attributeList;
 	int colnum = table->cols;
 	int rownum = table->rows;
-	
+
 	//Check if attr_list exists
-	if(attr==NULL){
+	if(attr == NULL){
 		Error("Table not initialized!");
 		return;
 	}
 
 	//Pointer to first cell of every col
 	cell_t *cells[colnum];
-	
+
 	// Table stats
-	cout << "\nTable: " << table_t->tableName;
+	cout << "\nTable: " << table->tableName;
 	cout << "\nRows: " << rownum << " Cols: " << colnum;
 
 	//Print all attr names
 	//Initialize 'cells' pointer array
 	for(int i=0 ; i<colnum ; i++){
-		cout << attr[i]->attr_name << "\t";
-		cells[i] = attr[i]->cell;
+		cout << attr[i].attr_name << "\t";
+		cells[i] = attr[i].cell;
 	}
-	
+
 	cout<<"\n";
-	
+
 	//Print table data
 	//Col-wise print
 	for(int i=0; i<rownum ; i++){
 		// Row-wise print
 		for(int j=0; j<colnum;j++){
-			cout << cells[j]->value << "\t";
+			if(attr[j].attr_type == STR){
+				cout << cells[j]->value.str << "\t";
+			}
+			else{
+				cout << cells[j]->value.value << "\t";
+			}
 			cells[j] = cells[j]->next;
 		}
 		cout << "\n";
