@@ -21,6 +21,8 @@ typedef struct cell_t cell_t;
 typedef struct attr_t attr_t;
 typedef struct table_t table_t;
 typedef struct database_t database_t;
+typedef struct col_t col_t;
+typedef struct result_t result_t;
 
 /* Union for storing attribute values. Either string or integer */
 typedef union {
@@ -36,7 +38,7 @@ struct cell_t {
 
 /* Stores the attribute and corresponding information */
 struct attr_t {
-	char *attr_name;
+	string attr_name;
 	cell_t *cell;
 	attrtype_t attr_type;
 	bool isPK;
@@ -51,7 +53,7 @@ struct attr_t {
 struct table_t{
 	int rows;
 	int cols;
-	char *tablename;
+	string tableName;
 	attr_t *attributeList;
 	table_t *nextTable;
 };
@@ -59,18 +61,20 @@ struct table_t{
 /* Stores the database. Only one global instance is required */
 struct database_t {
 	table_t *firstTable;
+	table_t *findTable(string tableName);
+	result_t *createTable(string tablename, int colNum, col_t* colList);
 };
 
 /* Result type returned after query */
-typedef struct {
+struct result_t{
 	resmsg_t status;
 	char msg[MAXMSG]; //carries any message
 	int rows;
 	int cols;
-	char *attr_names;
+	string attr_names;
 	attrtype_t *attr_types;
 	attrval_t **cell;
-}result_t;
+};
 
 /* Database handle */
 typedef struct {
