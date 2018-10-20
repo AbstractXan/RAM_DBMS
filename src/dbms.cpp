@@ -20,3 +20,49 @@ handle_t* get_handle() {
 	printf("inside get_handle\n");
 	return myhandle;
 }
+
+// ERROR HANDLING //
+void Error(string str){
+	printf("\n [!] Error: %s",str);
+}
+// DEBUGGING FUNCTIONS //
+/* DISPLAY TABLE FOR DEBUGGING */
+void printTable(table_t *table){
+	
+	attr_t attr = table->attributeList;
+	int colnum = table->cols;
+	int rownum = table->rows;
+	
+	//Check if attr_list exists
+	if(attr==NULL){
+		Error("Table not initialized!");
+		return;
+	}
+
+	//Pointer to first cell of every col
+	cell_t *cells[colnum];
+	
+	// Table stats
+	cout << "\nTable: " << table_t->tableName;
+	cout << "\nRows: " << rownum << " Cols: " << colnum;
+
+	//Print all attr names
+	//Initialize 'cells' pointer array
+	for(int i=0 ; i<colnum ; i++){
+		cout << attr[i]->attr_name << "\t";
+		cells[i] = attr[i]->cell;
+	}
+	
+	cout<<"\n";
+	
+	//Print table data
+	//Col-wise print
+	for(int i=0; i<rownum ; i++){
+		// Row-wise print
+		for(int j=0; j<colnum;j++){
+			cout << cells[j]->value << "\t";
+			cells[j] = cells[j]->next;
+		}
+		cout << "\n";
+	}
+}

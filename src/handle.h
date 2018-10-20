@@ -29,7 +29,7 @@ struct cell_t {
 
 /* Stores the attribute and corresponding information */
 struct attr_t {
-	char *attr_names;
+	char *attr_name;
 	cell_t *cell;
 	int attr_type;
 	bool isPK;
@@ -43,7 +43,7 @@ struct attr_t {
 struct table_t{
 	int rows;
 	int cols;
-	attr_t *attributeList;
+	attr_t *attributeList; //Array of attributes
 	table_t *nextTable;
 };
 
@@ -70,3 +70,10 @@ typedef struct {
 }handle_t;
 
 extern handle_t* get_handle();
+
+// ERROR HANDLING //
+void Error(string str);
+
+// DEBUGGING SECTION //
+/* DISPLAY TABLE FOR DEBUGGING */
+void printTable(table_t *table);
