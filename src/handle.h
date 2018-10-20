@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -23,6 +24,9 @@ typedef struct table_t table_t;
 typedef struct database_t database_t;
 typedef struct col_t col_t;
 typedef struct result_t result_t;
+
+//buffer for lex file
+vector <string> tokenBuffer;
 
 /* Union for storing attribute values. Either string or integer */
 typedef union {

@@ -1,0 +1,1 @@
+create table Demo (abc varchar(25), def int, ghi number);

@@ -2,15 +2,18 @@ GCC = g++
 CFLAGS =
 LFLAGS =
 
-OBJS = dbms.o main.o
+OBJS = lex.yy.o main.o
 TARGET = test
 
 all: $(OBJS)
 	$(GCC) $(OBJS) $(LFLAGS) -o $(TARGET)
 
-dbms.o : handle.h
-main.o : handle.h
 
+lex.yy.o : lex.yy.c
+	$(GCC) lex.yy.c -ll -c
+lex.yy.c : lex.l
+	flex lex.l
+main.o : handle.h
 .cpp.o:
 	$(GCC) $(CFLAGS) -c $<
 
