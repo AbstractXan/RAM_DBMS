@@ -51,7 +51,8 @@ void table_t::printTable(){
 	}
 }
 
-void table_t::insertValue(){
+// insertvalue of tuples based on PK / Not null
+void table_t::insertValue(cell_t *row){ //Takes in array of cell pointers
     attr_t *attr = attributeList;
 	int colnum = cols;
 	int rownum = rows;
@@ -65,12 +66,35 @@ void table_t::insertValue(){
 	//Pointer to first cell of every col
 	cell_t *cells[colnum];
 
-	//Print all attr names
-	//Initialize 'cells' pointer array
-	for(int i=0 ; i<colnum ; i++){
-		cout << attr[i].attr_name << "\t";
-		cells[i] = attr[i].cell;
-	}
+	// //Print all attr names
+	// //Initialize 'cells' pointer array
+	// for(int i=0 ; i<colnum ; i++){
+	// 	cout << attr[i].attr_name << "\t";
+	// 	cells[i] = attr[i].cell;
+	// }
 
+	// //Print table data
+	// //Col-wise print
+	// for(int i=0; i<rownum ; i++){
+	// 	// Row-wise print
+        
+
+	// 	for(int j=0; j<colnum;j++){
+
+
+	// 		if(attr[j].attr_type == STR){
+	// 			if(row[j].value.str.compare(cells[j]->value.str)==0)
+	// 		}
+	// 		else{
+	// 			cout << cells[j]->value.value << "\t";
+	// 		}
+	// 		cells[j] = cells[j]->next;
+	// 	}
+	// 	cout << "\n";
+	// }
+
+}
+
+void checkRow(cell_t *cells, cell_t *row){
 
 }
