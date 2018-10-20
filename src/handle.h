@@ -97,4 +97,11 @@ typedef struct {
 extern handle_t* get_handle();
 extern void delete_handle(handle_t *handle);
 
+// ERROR HANDLING //
+void Error(string str);
+
+// DEBUGGING SECTION //
+/* DISPLAY TABLE FOR DEBUGGING */
+void printTable(table_t *table);
+
 #endif
