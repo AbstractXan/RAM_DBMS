@@ -67,6 +67,7 @@ struct table_t{
 	string tableName;
 	attr_t *attributeList;
 	table_t *nextTable;
+	void printTable();
 };
 
 /* Stores the database. Only one global instance is required */

@@ -2,7 +2,7 @@ GCC = g++
 CFLAGS =
 LFLAGS =
 
-OBJS = dbms.o main.o
+OBJS = dbms.o main.o 
 TARGET = test
 
 all: $(OBJS)

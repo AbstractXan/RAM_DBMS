@@ -19,7 +19,7 @@ void database_t::displayData(){
 	cout<<"\nDatabase:"<<endl<<endl;
 	table_t *table = this->firstTable;
 	while(table != NULL){
-		printTable(table);
+		table->printTable();
 		cout<<endl;
 		table = table->nextTable;
 	}
@@ -144,11 +144,11 @@ void Error(string str){
 }
 // DEBUGGING FUNCTIONS //
 /* DISPLAY TABLE FOR DEBUGGING */
-void printTable(table_t *table){
+void table_t::printTable(){
 
-	attr_t *attr = table->attributeList;
-	int colnum = table->cols;
-	int rownum = table->rows;
+	attr_t *attr = attributeList;
+	int colnum = cols;
+	int rownum = rows;
 
 	//Check if attr_list exists
 	if(attr == NULL){
@@ -160,7 +160,7 @@ void printTable(table_t *table){
 	cell_t *cells[colnum];
 
 	// Table stats
-	cout << "\nTable: " << table->tableName;
+	cout << "\nTable: " << tableName;
 	cout << "\nRows: " << rownum << " Cols: " << colnum;
 	cout<<endl;
 
