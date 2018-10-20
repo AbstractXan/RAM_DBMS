@@ -1,4 +1,10 @@
+#ifndef __HANDLE_H__
+#define __HANDLE_H__
+
 #include <stdio.h>
+#include <string>
+
+using namespace std;
 
 #ifndef MAXMSG
 #define MAXMSG 100
@@ -10,6 +16,7 @@
 
 typedef enum { STR, VAL } attrtype_t;
 typedef enum { SUCC, FAIL } resmsg_t;
+typedef enum { CASCADE, SETDEFAULT, SETNULL } ondelete_t;
 typedef struct cell_t cell_t;
 typedef struct attr_t attr_t;
 typedef struct table_t table_t;
@@ -29,20 +36,22 @@ struct cell_t {
 
 /* Stores the attribute and corresponding information */
 struct attr_t {
-	char *attr_names;
+	char *attr_name;
 	cell_t *cell;
-	int attr_type;
+	attrtype_t attr_type;
 	bool isPK;
 	bool isFK;
 	bool isNotNull;
 	bool hasDefault;
 	attrval_t defaultVal;
+	ondelete_t onDelete;
 };
 
 /* Stores the table */
 struct table_t{
 	int rows;
 	int cols;
+	char *tablename;
 	attr_t *attributeList;
 	table_t *nextTable;
 };
@@ -65,8 +74,12 @@ typedef struct {
 
 /* Database handle */
 typedef struct {
-	result_t*  (*exec)(char *query);
+	result_t* exec(string query);
 	database_t *currentDB;
+	void clear();
 }handle_t;
 
 extern handle_t* get_handle();
+extern void delete_handle(handle_t *handle);
+
+#endif
