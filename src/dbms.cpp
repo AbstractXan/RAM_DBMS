@@ -2,21 +2,32 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <string.h>
 #include "handle.h"
 
 using namespace std;
 
 table_t *database_t::findTable(string tableName){
 	table_t* temp = this->firstTable;
-	while(temp != NULL && !temp->tableName.compare(tableName)){
+	while(temp != NULL && temp->tableName.compare(tableName)){
 		temp = temp->nextTable;
 	}
 	return temp;
 }
 
+void database_t::displayData(){
+	cout<<"\nDatabase:"<<endl<<endl;
+	table_t *table = this->firstTable;
+	while(table != NULL){
+		printTable(table);
+		cout<<endl;
+		table = table->nextTable;
+	}
+}
+
 result_t* database_t::createTable(string tablename, int colNum, col_t* colList){
 	if(this->findTable(tablename)){
-		//error();
+		Error("Table Already Exists");
 	}
 
 	table_t* newTab = new table_t;
@@ -34,10 +45,11 @@ result_t* database_t::createTable(string tablename, int colNum, col_t* colList){
 		newTab->attributeList[i].isPK = colList[i].isPK;
 		newTab->attributeList[i].isFK = colList[i].isFK;
 		newTab->attributeList[i].isNotNull = colList[i].isNotNull;
-		newTab->attributeList[i].hasDefault = colList[i].isNotNull;
+		newTab->attributeList[i].hasDefault = colList[i].hasDefault;
 		newTab->attributeList[i].defaultVal = colList[i].defaultVal;
 		newTab->attributeList[i].onDelete = colList[i].onDelete;
 	}
+	cout<<"Table created"<<endl;
 	//return done();
 }
 
@@ -51,6 +63,65 @@ result_t* handle_t::exec(string query) {
 	cout<<this->currentDB<<endl;
 	//your code runs here
 	cout<<"Inside exec, query = "<<query<<endl;
+	col_t *attrs = new col_t[3];
+	attrs[0].name = "Name";
+	attrs[0].type = STR;
+	attrs[0].isPK = true;
+	attrs[0].isFK = false;
+	attrs[0].isNotNull = false;
+	attrs[0].hasDefault = false;
+	strcpy(attrs[0].defaultVal.str,"name");
+	attrs[0].onDelete = SETNULL;
+
+	attrs[1].name = "Year";
+	attrs[1].type = VAL;
+	attrs[1].isPK = false;
+	attrs[1].isFK = false;
+	attrs[1].isNotNull = true;
+	attrs[1].hasDefault = true;
+	attrs[1].defaultVal.value = 1998;
+	attrs[1].onDelete = CASCADE;
+
+	attrs[2].name = "Salary";
+	attrs[2].type = VAL;
+	attrs[2].isPK = false;
+	attrs[2].isFK = false;
+	attrs[2].isNotNull = false;
+	attrs[2].hasDefault = false;
+	attrs[2].defaultVal.value = 1;
+	attrs[2].onDelete = SETNULL;
+
+	this->currentDB->createTable("SampleTable", 3, attrs);
+
+	attrs[0].name = "Cool";
+	attrs[0].type = STR;
+	attrs[0].isPK = true;
+	attrs[0].isFK = false;
+	attrs[0].isNotNull = false;
+	attrs[0].hasDefault = false;
+	strcpy(attrs[0].defaultVal.str,"name");
+	attrs[0].onDelete = SETNULL;
+
+	attrs[1].name = "ULe";
+	attrs[1].type = VAL;
+	attrs[1].isPK = false;
+	attrs[1].isFK = false;
+	attrs[1].isNotNull = true;
+	attrs[1].hasDefault = true;
+	attrs[1].defaultVal.value = 1998;
+	attrs[1].onDelete = CASCADE;
+
+	attrs[2].name = "Ssdry";
+	attrs[2].type = VAL;
+	attrs[2].isPK = false;
+	attrs[2].isFK = false;
+	attrs[2].isNotNull = false;
+	attrs[2].hasDefault = false;
+	attrs[2].defaultVal.value = 1;
+	attrs[2].onDelete = SETNULL;
+
+	this->currentDB->createTable("ExtraTable", 3, attrs);
+	this->currentDB->displayData();
 	return res;
 }
 
@@ -69,7 +140,7 @@ void delete_handle(handle_t *handle){
 
 // ERROR HANDLING //
 void Error(string str){
-	printf("\n [!] Error: %s",str);
+	cout<<"Error : "<<str<<endl;
 }
 // DEBUGGING FUNCTIONS //
 /* DISPLAY TABLE FOR DEBUGGING */
@@ -91,6 +162,7 @@ void printTable(table_t *table){
 	// Table stats
 	cout << "\nTable: " << table->tableName;
 	cout << "\nRows: " << rownum << " Cols: " << colnum;
+	cout<<endl;
 
 	//Print all attr names
 	//Initialize 'cells' pointer array
@@ -99,7 +171,7 @@ void printTable(table_t *table){
 		cells[i] = attr[i].cell;
 	}
 
-	cout<<"\n";
+	cout<<endl;
 
 	//Print table data
 	//Col-wise print

@@ -74,6 +74,7 @@ struct database_t {
 	table_t *firstTable;
 	table_t *findTable(string tableName);
 	result_t *createTable(string tablename, int colNum, col_t* colList);
+	void displayData();
 };
 
 /* Result type returned after query */
