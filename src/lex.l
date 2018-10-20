@@ -10,7 +10,7 @@ sp [" "]
 
 %%
 
-"\""({alphanum}+)?{sp}?{aphlanum}+"\"" {
+"\""({alphanum}+)?{sp}?{alphanum}+"\"" {
 	string s = yytext;
 	buffer.push_back(s);
 }
