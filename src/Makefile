@@ -2,7 +2,7 @@ GCC = g++
 CFLAGS =
 LFLAGS =
 
-OBJS = dbms.o main.o 
+OBJS = dbms.o main.o table.o
 TARGET = test
 
 all: $(OBJS)
@@ -10,6 +10,7 @@ all: $(OBJS)
 
 dbms.o : handle.h
 main.o : handle.h
+table.o : handle.h
 
 .cpp.o:
 	$(GCC) $(CFLAGS) -c $<

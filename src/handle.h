@@ -68,6 +68,8 @@ struct table_t{
 	attr_t *attributeList;
 	table_t *nextTable;
 	void printTable();
+	void insertValue();
+	void insertValues();
 };
 
 /* Stores the database. Only one global instance is required */
@@ -101,9 +103,4 @@ extern void delete_handle(handle_t *handle);
 
 // ERROR HANDLING //
 void Error(string str);
-
-// DEBUGGING SECTION //
-/* DISPLAY TABLE FOR DEBUGGING */
-void printTable(table_t *table);
-
 #endif
