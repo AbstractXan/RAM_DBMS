@@ -15,4 +15,4 @@ main.o : handle.h
 	$(GCC) $(CFLAGS) -c $<
 
 clean:
-	rm -rf *.o $(TARGET)
+	rm -rf *.o $(TARGET) lex.yy.c
