@@ -101,6 +101,12 @@ typedef struct {
 extern handle_t* get_handle();
 extern void delete_handle(handle_t *handle);
 
+
+// Input //
+void getInput();
+
 // ERROR HANDLING //
 void Error(string str);
+
+
 #endif

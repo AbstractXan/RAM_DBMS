@@ -15,6 +15,7 @@ void handle_t::clear(){
 result_t* handle_t::exec(string query) {
 	result_t* const res = (result_t*)malloc(sizeof(result_t));
 	cout<<this->currentDB<<endl;
+
 	//your code runs here
 	cout<<"Inside exec, query = "<<query<<endl;
 	col_t *attrs = new col_t[3];
@@ -76,6 +77,8 @@ result_t* handle_t::exec(string query) {
 
 	this->currentDB->createTable("ExtraTable", 3, attrs);
 	this->currentDB->displayData();
+
+	getInput();
 	return res;
 }
 
