@@ -2,6 +2,7 @@
 /* DISPLAY TABLE FOR DEBUGGING */
 #include "handle.h"
 #include<iostream>
+#include<cstring>
 
 using namespace std;
 
@@ -51,8 +52,33 @@ void table_t::printTable(){
 	}
 }
 
+
+//------------------------ //
+
+//Check if there exis a duplicate attribute for that column
+bool checkIfDuplicate(attr_t *attributes, int colnum, cell_t *cell[], cell_t *attr[]){
+	for(int i = 0; i < colnum; i++){
+		if(attributes[i].isPK){
+			cout<<attributes[i].attr_name<<" ";
+			if(attributes[i].attr_type == STR){
+				cout<<cell[i]->value.str<<" "<<attr[i]->value.str<<endl;
+				if(!(strcmp(cell[i]->value.str, attr[i]->value.str)==0)){
+					return false;
+				}
+			}
+			else{
+				cout<<cell[i]->value.value<<" "<<attr[i]->value.value<<endl;
+				if(cell[i]->value.value != attr[i]->value.value){
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
 // insertvalue of tuples based on PK / Not null
-void table_t::insertValue(cell_t *row){ //Takes in array of cell pointers
+//return true if success
+bool table_t::insertValue(cell_t *insertCells[]){ //Takes in array of cell pointers aka 'insertCells'
     attr_t *attr = attributeList;
 	int colnum = cols;
 	int rownum = rows;
@@ -60,41 +86,36 @@ void table_t::insertValue(cell_t *row){ //Takes in array of cell pointers
 	//Check if attr_list exists
 	if(attr == NULL){
 		Error("Table not initialized!");
-		return;
+		return false;
 	}
 
 	//Pointer to first cell of every col
 	cell_t *cells[colnum];
 
-	// //Print all attr names
-	// //Initialize 'cells' pointer array
-	// for(int i=0 ; i<colnum ; i++){
-	// 	cout << attr[i].attr_name << "\t";
-	// 	cells[i] = attr[i].cell;
-	// }
+	//Initialize 'cells' pointer array
+	for(int i=0 ; i<colnum ; i++){
+		cells[i] = attr[i].cell;
+	}
 
-	// //Print table data
-	// //Col-wise print
-	// for(int i=0; i<rownum ; i++){
-	// 	// Row-wise print
-        
+	//Traverse throught attributes of table
+	for(int i=0; i < rownum;i++){
 
-	// 	for(int j=0; j<colnum;j++){
+		//And while cell is not null
+		//Check for all cells in that column for duplicacy
+		if(checkIfDuplicate(attributeList, colnum, cells, insertCells)){
+			cout<<"Inserted failed"<<endl;
+			return false; //Insertion failed
+		}
 
+		for(int j = 0; j < colnum; j++){
+			cells[j] = cells[j]->next;
+		}
+	}
 
-	// 		if(attr[j].attr_type == STR){
-	// 			if(row[j].value.str.compare(cells[j]->value.str)==0)
-	// 		}
-	// 		else{
-	// 			cout << cells[j]->value.value << "\t";
-	// 		}
-	// 		cells[j] = cells[j]->next;
-	// 	}
-	// 	cout << "\n";
-	// }
-
-}
-
-void checkRow(cell_t *cells, cell_t *row){
-
+	for(int i = 0; i < colnum ; i++){
+		insertCells[i]->next = attributeList[i].cell;
+		attributeList[i].cell = insertCells[i];
+	}
+	this->rows++;
+	cout<<"Inserted row into table"<<endl;
 }

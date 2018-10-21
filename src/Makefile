@@ -1,5 +1,5 @@
 GCC = g++
-CFLAGS =
+CFLAGS = -g
 LFLAGS =
 
 OBJS = dbms.o main.o database.o table.o input.o
