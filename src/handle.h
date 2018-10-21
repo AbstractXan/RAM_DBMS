@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -23,6 +24,16 @@ typedef struct table_t table_t;
 typedef struct database_t database_t;
 typedef struct col_t col_t;
 typedef struct result_t result_t;
+
+class tokenList{
+
+    public:
+	vector<string> list;
+    string front();
+    int listLength();
+    void append(string);
+    void next();
+};
 
 /* Union for storing attribute values. Either string or integer */
 typedef union {
@@ -93,7 +104,7 @@ struct result_t{
 
 /* Database handle */
 typedef struct {
-	result_t* exec(string query);
+	result_t* exec(tokenList query);
 	database_t *currentDB;
 	void clear();
 }handle_t;
@@ -103,10 +114,9 @@ extern void delete_handle(handle_t *handle);
 
 
 // Input //
-void getInput();
+tokenList getInput();
 
 // ERROR HANDLING //
 void Error(string str);
-
 
 #endif

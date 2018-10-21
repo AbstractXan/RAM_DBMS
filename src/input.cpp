@@ -3,19 +3,14 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include    <vector>
+#include <vector>
 #include "handle.h"
 
 using namespace std;
 
-class tokenList{
-    vector<string> list;
-
-    public:
-    string front();
-    void append(string);
-    void next();
-};
+int tokenList::listLength(){
+    return list.size();
+}
 
 string tokenList::front(){
     return list.front();
@@ -26,18 +21,24 @@ void tokenList::append(string str){
 void tokenList::next(){
     list.erase(list.begin());
 }
-
+/*
 //Executes Query
 void execQuery(tokenList tokens){
 
     if(tokens.front()=="create"){
         cout<< endl << "create detected " <<endl ;
+        //createTablefromTok(tokens);
+    }
+
+    while(tokens.listLength()){
+        cout<<tokens.front()<<" - ";
         tokens.next();
     }
-}
+    cout<<endl;
+}*/
 
 //Gets Input
-void getInput(){
+tokenList getInput(){
 
     string cliInput; // CLIinput
     tokenList tokens; //Output token vector
@@ -51,7 +52,7 @@ void getInput(){
     char * str = &cliInput[0]; //string -> char*
     char * token_pointer;   //Token
     
-    token_pointer = strtok (str," "); //Tokenize against " "
+    token_pointer = strtok (str," ()"); //Tokenize against " "
     while (token_pointer != NULL)
     {
         string token = token_pointer;
@@ -67,13 +68,13 @@ void getInput(){
             {
                 break;
             }
-        
-        token_pointer = strtok (NULL, " ");
+        token_pointer = strtok (NULL, " ()");
     }
 
     ///TESTING///
     cout << endl << "Accepted Query: \" " << temp << " \" ";
     ////////////
-    execQuery(tokens);
+    //execQuery(tokens);
+    return tokens;
 }
 
