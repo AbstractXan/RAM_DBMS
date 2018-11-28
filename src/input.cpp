@@ -48,16 +48,11 @@ tokenList getInput(){
     /////////////
 
     getline(cin,cliInput); //get single line
-
-    int t1 = cliInput.find(';');
-
-    cliInput = cliInput.substr(0,t1);
-    //cout<<cliInput<<endl;
  
     char * str = &cliInput[0]; //string -> char*
     char * token_pointer;   //Token
     
-    token_pointer = strtok (str," (),"); //Tokenize against " "
+    token_pointer = strtok (str," ()"); //Tokenize against " "
     while (token_pointer != NULL)
     {
         string token = token_pointer;
@@ -67,15 +62,15 @@ tokenList getInput(){
         temp = temp + token + " ";
         ///////////////
 
-        //cout << endl << token;
+        cout << endl << token;
 
         if(token==";") //Reads only until ";"
             {
                 break;
             }
-        token_pointer = strtok (NULL, " (),");
+        token_pointer = strtok (NULL, " ()");
     }
-    tokens.append(";");
+
     ///TESTING///
     cout << endl << "Accepted Query: \" " << temp << " \" ";
     ////////////
