@@ -24,12 +24,13 @@ void table_t::printTable(){
 	// Table stats
 	cout << "\nTable: " << tableName;
 	cout << "\nRows: " << rownum << " Cols: " << colnum;
-	cout<<endl;
+	cout<<endl<<endl;
 
 	//Print all attr names
 	//Initialize 'cells' pointer array
 	for(int i=0 ; i<colnum ; i++){
-		cout << attr[i].attr_name << "\t";
+		//cout << attr[i].attr_name << "\t";
+		printf("%12s\t",attr[i].attr_name.c_str());
 		cells[i] = attr[i].cell;
 	}
 
@@ -41,10 +42,12 @@ void table_t::printTable(){
 		// Row-wise print
 		for(int j=0; j<colnum;j++){
 			if(attr[j].attr_type == STR){
-				cout << cells[j]->value.str << "\t";
+				//cout << cells[j]->value.str << "\t";
+				printf("%12s\t",cells[j]->value.str);
 			}
 			else{
-				cout << cells[j]->value.value << "\t";
+				//cout << cells[j]->value.value << "\t";
+				printf("%12d\t",cells[j]->value.value);
 			}
 			cells[j] = cells[j]->next;
 		}

@@ -38,7 +38,7 @@ class tokenList{
 /* Union for storing attribute values. Either string or integer */
 typedef union {
 	char str[MAXSTR];
-	float value;
+	int value;
 }attrval_t;
 
 /* Each cell in the table */
@@ -87,7 +87,7 @@ struct table_t{
 struct database_t {
 	table_t *firstTable;
 	table_t *findTable(string tableName);
-	result_t *createTable(string tablename, int colNum, col_t* colList);
+	result_t *createTable(string tablename, int colNum, vector<col_t> colList);
 	void displayData();
 };
 
