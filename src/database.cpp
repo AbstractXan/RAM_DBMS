@@ -21,14 +21,12 @@ void database_t::displayData(){
 	}
 }
 
-result_t* database_t::createTable(string tablename, int colNum, vector<col_t> colList){
+result_t* database_t::createTable(string tablename, int colNum, col_t* colList){
 	if(this->findTable(tablename)){
 		Error("Table Already Exists");
 	}
 
 	table_t* newTab = new table_t;
-
-	cout<<"Creating new table"<<endl;
 
 	newTab->nextTable = this->firstTable;
 	this->firstTable = newTab;
