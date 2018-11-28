@@ -24,12 +24,13 @@ void table_t::printTable(){
 	// Table stats
 	cout << "\nTable: " << tableName;
 	cout << "\nRows: " << rownum << " Cols: " << colnum;
-	cout<<endl;
+	cout<<endl<<endl;
 
 	//Print all attr names
 	//Initialize 'cells' pointer array
 	for(int i=0 ; i<colnum ; i++){
-		cout << attr[i].attr_name << "\t";
+		//cout << attr[i].attr_name << "\t";
+		printf("%12s\t",attr[i].attr_name.c_str());
 		cells[i] = attr[i].cell;
 	}
 
@@ -41,10 +42,12 @@ void table_t::printTable(){
 		// Row-wise print
 		for(int j=0; j<colnum;j++){
 			if(attr[j].attr_type == STR){
-				cout << cells[j]->value.str << "\t";
+				//cout << cells[j]->value.str << "\t";
+				printf("%12s\t",cells[j]->value.str);
 			}
 			else{
-				cout << cells[j]->value.value << "\t";
+				//cout << cells[j]->value.value << "\t";
+				printf("%12d\t",cells[j]->value.value);
 			}
 			cells[j] = cells[j]->next;
 		}
@@ -119,77 +122,3 @@ bool table_t::insertValue(cell_t *insertCells[]){ //Takes in array of cell point
 	this->rows++;
 	//cout<<"Inserted row into table"<<endl;
 }
-bool Find(string name, vector<string> col_id){
-	for(int i=0;i<col_id.size();i++)
-	{
-		if(!col_id[i].compare(name))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-
-void table_t::printTable(vector<string> col_id)
-{
-	
-	attr_t *attr = attributeList;
-	int colnum = cols;
-	int rownum = rows;
-
-	//Check if attr_list exists
-	if(attr == NULL){
-		Error("Table not initialized!");
-		return;
-	}
-
-	//Pointer to first cell of every col
-	cell_t *cells[colnum];
-
-	// Table stats
-	cout << "\nTable: " << tableName;
-	cout << "\nRows: " << rownum << " Cols: " << colnum;
-	cout<<endl;
-
-	//Print all attr names
-	//Initialize 'cells' pointer array
-	for(int i=0 ; i<colnum ; i++){
-		if(Find(attr[i].attr_name,col_id)){
-			cout << attr[i].attr_name << "\t";
-			
-		}
-		cells[i] = attr[i].cell;
-	}
-
-	cout<<endl;
-
-	//Print table data
-	//Col-wise print
-	for(int i=0; i<rownum ; i++){
-		// Row-wise print
-		for(int j=0; j<colnum;j++){
-			if(attr[j].attr_type == STR && Find(attr[j].attr_name,col_id)){
-				cout << cells[j]->value.str << "\t";
-			}
-			else{
-				if(Find(attr[j].attr_name,col_id))
-				{
-					cout << cells[j]->value.value << "\t";
-				}
-			}
-			cells[j] = cells[j]->next;
-		}
-		cout << "\n";
-	}
-}
-
-
-//------------------------ //
-
-
-
-
-
-
-
