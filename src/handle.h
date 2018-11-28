@@ -116,6 +116,8 @@ extern void delete_handle(handle_t *handle);
 // Input //
 tokenList getInput();
 
+void selectFromTable(tokenList tokens, handle_t *handle);
+
 // ERROR HANDLING //
 void Error(string str);
 

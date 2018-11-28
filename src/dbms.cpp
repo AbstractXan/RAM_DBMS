@@ -57,6 +57,23 @@ bool createTableFromTok(database_t *db, tokenList query){
 	}
 }
 
+void selectFromTable(tokenList query, handle_t *handle){
+
+	query.next();
+	if(query.front() == "*"){
+		query.next();
+		query.next();
+		string tablename = query.front();
+		table_t *tab;
+		if(tab = handle->currentDB->findTable(tablename)){
+			tab->printTable();
+		}
+		else{
+			cout<<"Table does not exist"<<endl;
+		}
+	}
+}
+
 //you implemnet your own code here
 result_t* handle_t::exec(tokenList query) {
 	result_t* const res = (result_t*)malloc(sizeof(result_t));
@@ -66,11 +83,26 @@ result_t* handle_t::exec(tokenList query) {
 		cout<<"CREATE"<<endl;
 		createTableFromTok(this->currentDB, query);
 	}
+	else if(query.front() == "select"){
+		cout<<"Select\n";
+		selectFromTable(query, this);
+	}
 	
-	{
 		//your code runs here
-		/*cout<<"Inside exec, query = "<<query<<endl;
-		col_t *attrs = new col_t[3];
+		//cout<<"Inside exec, query = "<<query<<endl;
+
+		//this->currentDB->displayData();
+
+
+	return res;
+}
+
+handle_t* get_handle() {
+	handle_t* const myhandle = (handle_t*)malloc(sizeof(handle_t));
+	myhandle->currentDB = new database_t;
+	myhandle->currentDB->firstTable = NULL;
+	printf("inside get_handle\n");
+			col_t *attrs = new col_t[3];
 		attrs[0].name = "Name";
 		attrs[0].type = STR;
 		attrs[0].isPK = true;
@@ -98,7 +130,7 @@ result_t* handle_t::exec(tokenList query) {
 		attrs[2].defaultVal.value = 1;
 		attrs[2].onDelete = SETNULL;
 
-		this->currentDB->createTable("SampleTable", 3, attrs);
+		myhandle->currentDB->createTable("SampleTable", 3, attrs);
 
 		attrs[0].name = "Cool";
 		attrs[0].type = STR;
@@ -127,7 +159,7 @@ result_t* handle_t::exec(tokenList query) {
 		attrs[2].defaultVal.value = 1;
 		attrs[2].onDelete = SETNULL;
 
-		this->currentDB->createTable("ExtraTable", 3, attrs);
+		myhandle->currentDB->createTable("ExtraTable", 3, attrs);
 
 
 		//Filling test data
@@ -138,7 +170,7 @@ result_t* handle_t::exec(tokenList query) {
 		strcpy( insertCells[0]->value.str, "Roh.it");
 		insertCells[1]->value.value = 1998;
 		insertCells[2]->value.value = 5000;
-		this->currentDB->findTable("SampleTable")->insertValue(insertCells);
+		myhandle->currentDB->findTable("SampleTable")->insertValue(insertCells);
 
 		for(int i = 0 ; i < 3 ; i++){
 			insertCells[i] = new cell_t;
@@ -146,7 +178,7 @@ result_t* handle_t::exec(tokenList query) {
 		strcpy( insertCells[0]->value.str, "Priyanshu");
 		insertCells[1]->value.value = 1997;
 		insertCells[2]->value.value = 5053;
-		this->currentDB->findTable("SampleTable")->insertValue(insertCells);
+		myhandle->currentDB->findTable("SampleTable")->insertValue(insertCells);
 
 		for(int i = 0 ; i < 3 ; i++){
 			insertCells[i] = new cell_t;
@@ -154,7 +186,7 @@ result_t* handle_t::exec(tokenList query) {
 		strcpy( insertCells[0]->value.str, "Roh.it");
 		insertCells[1]->value.value = 1998;
 		insertCells[2]->value.value = 6000;
-		this->currentDB->findTable("SampleTable")->insertValue(insertCells);
+		myhandle->currentDB->findTable("SampleTable")->insertValue(insertCells);
 
 		for(int i = 0 ; i < 3 ; i++){
 			insertCells[i] = new cell_t;
@@ -162,35 +194,7 @@ result_t* handle_t::exec(tokenList query) {
 		strcpy( insertCells[0]->value.str, "Rohith");
 		insertCells[1]->value.value = 1998;
 		insertCells[2]->value.value = 6000;
-		this->currentDB->findTable("ExtraTable")->insertValue(insertCells);
-
-		for(int i = 0 ; i < 3 ; i++){
-			insertCells[i] = new cell_t;
-		}
-		strcpy( insertCells[0]->value.str, "Rohith");
-		insertCells[1]->value.value = 1998;
-		insertCells[2]->value.value = 5000;
-		this->currentDB->findTable("ExtraTable")->insertValue(insertCells);
-
-		for(int i = 0 ; i < 3 ; i++){
-			insertCells[i] = new cell_t;
-		}
-		strcpy( insertCells[0]->value.str, "Rohith");
-		insertCells[1]->value.value = 1998;
-		insertCells[2]->value.value = 6000;
-		this->currentDB->findTable("ExtraTable")->insertValue(insertCells);
-
-		this->currentDB->displayData();*/
-	}
-
-	return res;
-}
-
-handle_t* get_handle() {
-	handle_t* const myhandle = (handle_t*)malloc(sizeof(handle_t));
-	myhandle->currentDB = new database_t;
-	myhandle->currentDB->firstTable = NULL;
-	printf("inside get_handle\n");
+		myhandle->currentDB->findTable("ExtraTable")->insertValue(insertCells);
 	return myhandle;
 }
 

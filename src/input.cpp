@@ -21,13 +21,13 @@ void tokenList::append(string str){
 void tokenList::next(){
     list.erase(list.begin());
 }
-/*
+
 //Executes Query
 void execQuery(tokenList tokens){
 
-    if(tokens.front()=="create"){
-        cout<< endl << "create detected " <<endl ;
-        //createTablefromTok(tokens);
+    if(tokens.front()=="select"){
+        cout<< endl << "select detected " <<endl ;
+        //selectFromTable(tokens);
     }
 
     while(tokens.listLength()){
@@ -35,7 +35,7 @@ void execQuery(tokenList tokens){
         tokens.next();
     }
     cout<<endl;
-}*/
+}
 
 //Gets Input
 tokenList getInput(){

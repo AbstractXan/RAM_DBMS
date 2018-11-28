@@ -59,15 +59,15 @@ void table_t::printTable(){
 bool checkIfDuplicate(attr_t *attributes, int colnum, cell_t *cell[], cell_t *attr[]){
 	for(int i = 0; i < colnum; i++){
 		if(attributes[i].isPK){
-			cout<<attributes[i].attr_name<<" ";
+			//cout<<attributes[i].attr_name<<" ";
 			if(attributes[i].attr_type == STR){
-				cout<<cell[i]->value.str<<" "<<attr[i]->value.str<<endl;
+				//cout<<cell[i]->value.str<<" "<<attr[i]->value.str<<endl;
 				if(!(strcmp(cell[i]->value.str, attr[i]->value.str)==0)){
 					return false;
 				}
 			}
 			else{
-				cout<<cell[i]->value.value<<" "<<attr[i]->value.value<<endl;
+				//cout<<cell[i]->value.value<<" "<<attr[i]->value.value<<endl;
 				if(cell[i]->value.value != attr[i]->value.value){
 					return false;
 				}
@@ -103,7 +103,7 @@ bool table_t::insertValue(cell_t *insertCells[]){ //Takes in array of cell point
 		//And while cell is not null
 		//Check for all cells in that column for duplicacy
 		if(checkIfDuplicate(attributeList, colnum, cells, insertCells)){
-			cout<<"Inserted failed"<<endl;
+			//cout<<"Inserted failed"<<endl;
 			return false; //Insertion failed
 		}
 
@@ -117,5 +117,5 @@ bool table_t::insertValue(cell_t *insertCells[]){ //Takes in array of cell point
 		attributeList[i].cell = insertCells[i];
 	}
 	this->rows++;
-	cout<<"Inserted row into table"<<endl;
+	//cout<<"Inserted row into table"<<endl;
 }
