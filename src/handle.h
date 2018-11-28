@@ -118,6 +118,7 @@ extern void delete_handle(handle_t *handle);
 tokenList getInput();
 
 void selectFromTable(tokenList tokens, handle_t *handle);
+void insertIntoTable(tokenList tokens, handle_t *handle);
 
 // ERROR HANDLING //
 void Error(string str);
