@@ -66,7 +66,8 @@ bool createTableFromTok(database_t *db, tokenList query){
 void selectFromTable(tokenList query, handle_t *handle){
 
 	query.next();
-	if(!query.front().compare("*")){
+	vector<string>col_id;
+	if(query.front() == "*"){
 		query.next();
 		query.next();
 		string tablename = query.front();
@@ -76,6 +77,34 @@ void selectFromTable(tokenList query, handle_t *handle){
 		}
 		else{
 			cout<<"Table does not exist"<<endl;
+		}
+	}
+	else{
+		
+		while(query.front().compare("from") && query.front()!=";")
+		{
+			col_id.push_back(query.front());
+			query.next();
+		}
+		if(!query.front().compare("from"))
+		{
+			query.next();
+			string tablename=query.front();
+			table_t *tab;
+			if(tab = handle->currentDB->findTable(tablename))
+			{
+				
+				tab->printTable(col_id);
+				query.next();
+				if(!query.front().compare("where"))
+				{
+				}
+					
+			}
+			else
+			{
+				cout<<"Table does not exist"<<endl;
+			}
 		}
 	}
 }

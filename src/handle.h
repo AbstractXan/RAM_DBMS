@@ -79,6 +79,7 @@ struct table_t{
 	attr_t *attributeList;
 	table_t *nextTable;
 	void printTable();
+	void printTable(vector <string>);
 	bool insertValue(cell_t *row[]);
 	void insertValues();
 };
