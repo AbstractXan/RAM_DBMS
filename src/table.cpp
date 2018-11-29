@@ -379,6 +379,8 @@ void table_t::printTable(vector<constraint> constr, int flag){
 		return;
 	}
 
+	cout<<"In select"<<endl;
+
 	//Pointer to first cell of every col
 	cell_t *cells[colnum];
 
@@ -423,5 +425,57 @@ void table_t::printTable(vector<constraint> constr, int flag){
 	}
 }
 
+void table_t::deleteAttr(vector<constraint> constr, int flag){
+	attr_t *attr = attributeList;
+	int colnum = cols;
+	int rownum = rows;
+
+	//Check if attr_list exists
+	if(attr == NULL){
+		Error("Table not initialized!");
+		return;
+	}
+
+	//Pointer to first cell of every col
+	cell_t *prevcells[colnum], *cells[colnum];
+
+	//Print all attr names
+	//Initialize 'cells' pointer array
+	for(int i=0 ; i<colnum ; i++){
+		prevcells[i] = attr[i].cell;
+		cells[i] = prevcells[i]->next;
+	}
+
+	//Print table data
+	//Col-wise print
+	for(int i=0; i<rownum-1 ; i++){
+		// Row-wise print
+		if(eval1(constr,flag,cells)){
+			for(int j=0; j<colnum;j++){
+				prevcells[j]->next = cells[j]->next;
+				cells[j] = cells[j]->next;
+			}
+			rownum--;
+		}
+		else{
+			for(int j = 0 ; j < colnum ; j++){
+				prevcells[j] = prevcells[j]->next;
+				cells[j] = prevcells[j]->next;
+			}
+		}
+	}
+	if(rownum != 0){
+		for(int i = 0 ; i < colnum ; i++){
+			prevcells[i] = attr[i].cell;
+		}
+		if(eval1(constr,flag,prevcells)){
+			for(int j = 0 ; j < colnum ; j++){
+				attr[j].cell = prevcells[j]->next;
+			}
+			rownum--;
+		}
+	}
+	rows = rownum;
+}
 
 //------------------------ //

@@ -91,6 +91,7 @@ struct table_t{
 	void printTable(vector <string>);
 	void printTable(vector <string> , vector <constraint>, int);
 	void printTable(vector<constraint>, int);
+	void deleteAttr(vector<constraint>, int);
 	bool eval1(vector <constraint>, int, cell_t *[]);
 	bool checkCol(cell_t*, string, string, int);
 	bool getColNum(string);

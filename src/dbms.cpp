@@ -125,7 +125,7 @@ void selectFromTable(tokenList query, handle_t *handle){
 					query.next();
 				}
 			}
-			tab->printTable(col_id,expr, f);
+			tab->printTable(expr, f);
 		}	
 	}
 
@@ -192,7 +192,7 @@ void selectFromTable(tokenList query, handle_t *handle){
 							query.next();
 						}
 					}
-					tab->printTable(expr, f);
+					tab->printTable(col_id,expr, f);
 				}	
 			}
 			else
@@ -200,6 +200,68 @@ void selectFromTable(tokenList query, handle_t *handle){
 				cout<<"Table does not exist"<<endl;
 			}	
 	}
+	}
+}
+
+void deleteFromTable(tokenList query, handle_t *handle){
+	query.next();
+	if(!query.front().compare("from")){
+		query.next();
+		string tablename = query.front();
+		query.next();
+		table_t *tab;
+		if(tab = handle->currentDB->findTable(tablename)){
+			if(!query.front().compare(";")){
+				for(int i=0; i<tab->cols; i++){
+					tab->rows = 0;
+					tab->attributeList[i].cell = NULL;
+				}
+			}
+			if(!query.front().compare("where")){
+				int f = -1;
+				query.next();
+				vector<constraint> expr;
+				while(query.front().compare(";")){
+					if(query.front().compare("and") && query.front().compare("or")){
+						struct constraint e;
+						e.operand1=query.front();
+						if(e.operand1[0] == '"' && e.operand1[e.operand1.size()-1] == '"'){
+							e.opt1 = STRING;
+						}
+						else if(e.operand1[0] >= '0' && e.operand1[0] <= '9'){
+							e.opt1 = INTEGER;
+						}
+						else{
+							e.opt1 = COLUMN;
+						}
+						query.next();
+						e.op=query.front();
+						query.next();
+						e.operand2=query.front();
+						query.next();
+						if(e.operand2[0] == '"' && e.operand2[e.operand2.size()-1] == '"'){
+							e.opt2 = STRING;
+						}
+						else if(e.operand2[0] >= '0' && e.operand2[0] <= '9'){
+							e.opt2 = INTEGER;
+						}
+						else{
+							e.opt2 = COLUMN;
+						}
+						expr.push_back(e);
+					}
+					if(!query.front().compare("and")){
+						f = 0;
+						query.next();
+					}
+					else if(!query.front().compare("or")){
+						f = 1;
+						query.next();
+					}
+				}
+				tab->deleteAttr(expr,f);
+			}
+		}
 	}
 }
 
@@ -217,6 +279,10 @@ result_t* handle_t::exec(tokenList query) {
 	else if(!query.front().compare("select")){
 		cout<<"Select\n";
 		selectFromTable(query, this);
+	}
+	else if(!query.front().compare("delete")){
+		cout<<"DELETE\n";
+		deleteFromTable(query, this);
 	}
 	
 		//your code runs here
