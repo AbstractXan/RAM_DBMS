@@ -25,6 +25,7 @@ typedef struct table_t table_t;
 typedef struct database_t database_t;
 typedef struct col_t col_t;
 typedef struct result_t result_t;
+typedef struct constraint constraint;
 
 class tokenList{
 
@@ -88,13 +89,13 @@ struct table_t{
 	attr_t *attributeList;
 	table_t *nextTable;
 	void printTable();
-	void printTable(vector <string>);
-	void printTable(vector <string> , vector <constraint>, int);
-	void printTable(vector<constraint>, int);
-	void deleteAttr(vector<constraint>, int);
-	bool eval1(vector <constraint>, int, cell_t *[]);
+	void printTable(vector <string>&);
+	void printTable(vector <string> &, vector <constraint>&, int);
+	void printTable(vector<constraint>&, int);
+	void deleteAttr(vector<constraint>&, int);
+	bool eval1(vector <constraint>&, int, cell_t *[]);
 	bool checkCol(cell_t*, string, string, int);
-	bool getColNum(string);
+	int getColNum(string);
 	bool insertValue(cell_t *row[]);
 	void insertValues();
 };
@@ -132,7 +133,7 @@ extern void delete_handle(handle_t *handle);
 // Input //
 tokenList getInput();
 
-void selectFromTable(tokenList tokens, handle_t *handle);
+void selectFromTable(tokenList &tokens, handle_t *handle);
 
 // ERROR HANDLING //
 void Error(string str);

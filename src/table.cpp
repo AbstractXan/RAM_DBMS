@@ -134,7 +134,7 @@ bool Find(string name, vector<string> col_id){
 }
 
 
-void table_t::printTable(vector<string> col_id)
+void table_t::printTable(vector<string> &col_id)
 {
 	
 	attr_t *attr = attributeList;
@@ -152,7 +152,7 @@ void table_t::printTable(vector<string> col_id)
 
 	// Table stats
 	cout << "\nTable: " << tableName;
-	cout << "\nRows: " << rownum << " Cols: " << colnum;
+	//cout << "\nRows: " << rownum << " Cols: " << colnum;
 	cout<<endl<<endl;
 
 	//Print all attr names
@@ -186,9 +186,10 @@ void table_t::printTable(vector<string> col_id)
 	}
 }
 
-bool table_t::getColNum(string colName){
+int table_t::getColNum(string colName){
     for(int i = 0 ; i < cols ; i++){
         if(!colName.compare(attributeList[i].attr_name)){
+			//cout<<colName<<endl;
             return i;
         }
     }
@@ -255,7 +256,7 @@ string flip(string op){
     return op;
 }
 
-bool table_t::eval1(vector<constraint> expr, int flag, cell_t *cells[]){
+bool table_t::eval1(vector<constraint> &expr, int flag, cell_t *cells[]){
 
     bool result = true;
 	
@@ -268,6 +269,7 @@ bool table_t::eval1(vector<constraint> expr, int flag, cell_t *cells[]){
             case COLUMN : 
                 if(t.opt2 != COLUMN){
                     int t1 = getColNum(t.operand1);
+					//cout<<t.operand1<<" ";
                     if(t1 == -1){
                         return false;
                     }
@@ -307,7 +309,7 @@ bool table_t::eval1(vector<constraint> expr, int flag, cell_t *cells[]){
 	return result;
 }
 
-void table_t::printTable(vector<string> col_id ,vector<constraint> expr, int flag)
+void table_t::printTable(vector<string> &col_id ,vector<constraint> &expr, int flag)
 {
 	
 	attr_t *attr = attributeList;
@@ -325,7 +327,7 @@ void table_t::printTable(vector<string> col_id ,vector<constraint> expr, int fla
 
 	// Table stats
 	cout << "\nTable: " << tableName;
-	cout << "\nRows: " << rownum << " Cols: " << colnum;
+	//cout << "\nRows: " << rownum << " Cols: " << colnum;
 	cout<<endl;
 
 	//Print all attr names
@@ -367,7 +369,7 @@ void table_t::printTable(vector<string> col_id ,vector<constraint> expr, int fla
 	}
 }
 
-void table_t::printTable(vector<constraint> constr, int flag){
+void table_t::printTable(vector<constraint> &constr, int flag){
 
 	attr_t *attr = attributeList;
 	int colnum = cols;
@@ -379,14 +381,14 @@ void table_t::printTable(vector<constraint> constr, int flag){
 		return;
 	}
 
-	cout<<"In select"<<endl;
+	//cout<<"In select"<<endl;
 
 	//Pointer to first cell of every col
 	cell_t *cells[colnum];
 
 	// Table stats
 	cout << "\nTable: " << tableName;
-	cout << "\nRows: " << rownum << " Cols: " << colnum;
+	//cout << "\nRows: " << rownum << " Cols: " << colnum;
 	cout<<endl<<endl;
 
 	//Print all attr names
@@ -425,7 +427,7 @@ void table_t::printTable(vector<constraint> constr, int flag){
 	}
 }
 
-void table_t::deleteAttr(vector<constraint> constr, int flag){
+void table_t::deleteAttr(vector<constraint> &constr, int flag){
 	attr_t *attr = attributeList;
 	int colnum = cols;
 	int rownum = rows;

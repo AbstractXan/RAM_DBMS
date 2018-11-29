@@ -1,0 +1,9 @@
+create table employee (name varchar, pk id int, num int);
+insert into employee("e1",1,20);
+insert into employee("e2",2,30);
+insert into employee("e3",4,40);
+select * from employee;
+select * from employee where num > 30;
+delete from employee where id = 4;
+select name,id from employee;
+select name from employee where num < 40;
