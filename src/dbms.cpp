@@ -63,6 +63,55 @@ bool createTableFromTok(database_t *db, tokenList query){
 	return true;
 }
 
+void insertIntoTable(tokenList query, handle_t *handle){
+	query.next();
+	if(query.front().compare("into")){ cout<<"Syntax Error. Expected 'INTO' keyword"<<endl; }
+	
+	else{
+		//Get TableName
+		query.next();
+		string tablename = query.front(); query.next();
+		table_t *tab;
+		if(tab = handle->currentDB->findTable(tablename)){ //TABLE
+
+					int num = 1; //NUMBER OF VALUES HARD CODED AS 1
+				 	cell_t **insertCells = new cell_t*[ tab->cols  ];
+
+					//FOR EACH SET OF VALUES 
+					for(int j = 0; j < tab->cols  ; j++){
+						insertCells[j] = new cell_t;
+					}
+						//FOR EACH VALUE
+						for(int i=0; i < tab->cols ; i++){
+
+							cout << i<<endl;
+							cout << query.front() << endl;
+							if(query.front().compare(";")==0){ cout<<"UNEXPECTED END OF INSERT. Check number of values."<<endl;return;}
+							
+							if(tab->attributeList->attr_type==STR){
+								strcpy(insertCells[i]->value.str, query.front().c_str());
+								query.next();
+							}
+							else{
+								insertCells[i]->value.value = atoi(query.front().c_str());
+								query.next();
+							}
+						}
+					
+
+				if(query.front().compare(";")==0){
+
+				tab->insertValue(insertCells);
+				cout << "Inserted " << num << " rows." << endl; 
+				}
+
+		}
+		else{
+			cout<<"Table does not exist"<<endl; return;
+		}
+	}
+}
+
 void selectFromTable(tokenList query, handle_t *handle){
 
 	query.next();
@@ -283,6 +332,10 @@ result_t* handle_t::exec(tokenList query) {
 	else if(!query.front().compare("delete")){
 		cout<<"DELETE\n";
 		deleteFromTable(query, this);
+	}
+	else if (!query.front().compare("insert")){
+		cout<<"Insert" << endl;
+		insertIntoTable(query, this);
 	}
 	
 		//your code runs here
