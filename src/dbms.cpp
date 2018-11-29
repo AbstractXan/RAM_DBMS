@@ -72,13 +72,63 @@ void selectFromTable(tokenList query, handle_t *handle){
 		query.next();
 		string tablename = query.front();
 		table_t *tab;
-		if(tab = handle->currentDB->findTable(tablename)){
-			tab->printTable();
+		query.next();
+		if(query.front() == ";"){
+			if(tab = handle->currentDB->findTable(tablename)){
+				tab->printTable();
+			}
+			else{
+				cout<<"Table does not exist"<<endl;
+			}
 		}
-		else{
-			cout<<"Table does not exist"<<endl;
-		}
+		else if(!query.front().compare("where"))
+		{
+			int f = -1;
+			query.next();
+			vector<constraint> expr;
+			while(query.front().compare(";"))
+			{
+				if(query.front().compare("and") && query.front().compare("or")){
+					struct constraint e;
+					e.operand1=query.front();
+					if(e.operand1[0] == '"' && e.operand1[e.operand1.size()-1] == '"'){
+						e.opt1 = STRING;
+					}
+					else if(e.operand1[0] >= '0' && e.operand1[0] <= '9'){
+						e.opt1 = INTEGER;
+					}
+					else{
+						e.opt1 = COLUMN;
+					}
+					query.next();
+					e.op=query.front();
+					query.next();
+					e.operand2=query.front();
+					query.next();
+					if(e.operand2[0] == '"' && e.operand2[e.operand2.size()-1] == '"'){
+						e.opt2 = STRING;
+					}
+					else if(e.operand2[0] >= '0' && e.operand2[0] <= '9'){
+						e.opt2 = INTEGER;
+					}
+					else{
+						e.opt2 = COLUMN;
+					}
+					expr.push_back(e);
+				}
+				if(!query.front().compare("and")){
+					f = 0;
+					query.next();
+				}
+				else if(!query.front().compare("or")){
+					f = 1;
+					query.next();
+				}
+			}
+			tab->printTable(col_id,expr, f);
+		}	
 	}
+
 	else{
 		
 		while(query.front().compare("from") && query.front()!=";")
@@ -93,19 +143,63 @@ void selectFromTable(tokenList query, handle_t *handle){
 			table_t *tab;
 			if(tab = handle->currentDB->findTable(tablename))
 			{
-				
-				tab->printTable(col_id);
 				query.next();
-				if(!query.front().compare("where"))
+				if(!query.front().compare(";"))
 				{
+					tab->printTable(col_id);
 				}
-					
+				else if(!query.front().compare("where"))
+				{
+					int f = -1;
+					query.next();
+					vector<constraint> expr;
+					while(query.front().compare(";"))
+					{
+						if(query.front().compare("and") && query.front().compare("or")){
+							struct constraint e;
+							e.operand1=query.front();
+							if(e.operand1[0] == '"' && e.operand1[e.operand1.size()-1] == '"'){
+								e.opt1 = STRING;
+							}
+							else if(e.operand1[0] >= '0' && e.operand1[0] <= '9'){
+								e.opt1 = INTEGER;
+							}
+							else{
+								e.opt1 = COLUMN;
+							}
+							query.next();
+							e.op=query.front();
+							query.next();
+							e.operand2=query.front();
+							query.next();
+							if(e.operand2[0] == '"' && e.operand2[e.operand2.size()-1] == '"'){
+								e.opt2 = STRING;
+							}
+							else if(e.operand2[0] >= '0' && e.operand2[0] <= '9'){
+								e.opt2 = INTEGER;
+							}
+							else{
+								e.opt2 = COLUMN;
+							}
+							expr.push_back(e);
+						}
+						if(!query.front().compare("and")){
+							f = 0;
+							query.next();
+						}
+						else if(!query.front().compare("or")){
+							f = 1;
+							query.next();
+						}
+					}
+					tab->printTable(expr, f);
+				}	
 			}
 			else
 			{
 				cout<<"Table does not exist"<<endl;
-			}
-		}
+			}	
+	}
 	}
 }
 

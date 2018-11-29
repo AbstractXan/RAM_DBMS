@@ -18,6 +18,7 @@ using namespace std;
 typedef enum { STR, VAL } attrtype_t;
 typedef enum { SUCC, FAIL } resmsg_t;
 typedef enum { CASCADE, SETDEFAULT, SETNULL } ondelete_t;
+typedef enum { STRING, INTEGER, COLUMN } op_t;
 typedef struct cell_t cell_t;
 typedef struct attr_t attr_t;
 typedef struct table_t table_t;
@@ -71,6 +72,14 @@ struct col_t {
 	ondelete_t onDelete;
 };
 
+struct constraint{
+	string operand1;
+	op_t opt1;
+	op_t opt2;
+	string operand2;
+	string op;
+};
+
 /* Stores the table */
 struct table_t{
 	int rows;
@@ -80,6 +89,11 @@ struct table_t{
 	table_t *nextTable;
 	void printTable();
 	void printTable(vector <string>);
+	void printTable(vector <string> , vector <constraint>, int);
+	void printTable(vector<constraint>, int);
+	bool eval1(vector <constraint>, int, cell_t *[]);
+	bool checkCol(cell_t*, string, string, int);
+	bool getColNum(string);
 	bool insertValue(cell_t *row[]);
 	void insertValues();
 };
